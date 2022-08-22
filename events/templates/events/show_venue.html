@@ -1,0 +1,36 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+	
+
+<div class="card">
+  <div class="card-header">
+    Événements
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ venue }}</h5>
+    <p class="card-text">
+    	<ul>
+
+	<li>{{ venue.titre }}</li>
+	<li>{{ venue.type }}</li>
+	<li>{{ venue.event_date }}</li>
+	<li>{{ venue.description }}</li>
+	<li><a href="{{ venue.web }}">{{ venue.web }}</a></li>
+	<li>Owner: {{ venue_owner }} </li>
+
+	</ul>
+	<br>
+
+	{% if venue.event_image %}
+	<img src="{{ venue.event_image.url }}" width=500>
+	{% endif %}
+
+
+
+    </p>
+    <br/>
+    
+	
+	</center>
+{% endblock %}

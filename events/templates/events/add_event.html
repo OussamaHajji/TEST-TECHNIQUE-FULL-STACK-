@@ -1,0 +1,31 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+<!-- check if user is connected before add an event -->
+{% if user.is_authenticated %}
+	<center>
+	<h1>Add Event</h1>
+	<br/><br/>
+	{% if submitted %}
+		Your Event Was Submitted Succefully!!!
+
+	{% else %}
+
+		<form action="" method=POST enctype="multipart/form-data">
+			{% csrf_token %}
+
+			{{ form.as_p }}
+
+			<input type="submit" value="Submit" class="btn btn-secondary">
+
+		</form>
+	{% endif %}
+	</center>
+{% else %}
+<!-- message show when when you try to add new Event on Geust mode [you must login to create an event]-->
+	<h1>Sorry! You Must Be Logged In To View This Page...</h1>
+
+	<a href="{% url 'login' %}">Login Here</a>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+  <title>Neopolis Event</title>
+  
+  <style>
+    body {
+      background: #f4f4f4;
+    }
+  </style>
+</head>
+
+<body>
+  {% include 'events/navbar.html' %}
+  <br />
+  <div class="container">
+    {% if messages %}
+    {% for message in messages %}
+
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    {% endfor %}
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+  
+  
+    
+  <!-- Optional JavaScript; choose one of the two! -->
+
+  <!-- Option 1: Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+    crossorigin="anonymous"></script>
+
+  <!-- Option 2: Separate Popper and Bootstrap JS -->
+  <!--
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+    -->
+    
+  <script>
+    var x = document.getElementById("demo");
+
+    function getLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+      } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+    }
+
+    function showPosition(position) {
+      x.innerHTML = "Latitude: " + position.coords.latitude +
+        "<br>Longitude: " + position.coords.longitude;
+    }
+    window.onload = getLocation;
+  </script>
+<script>
+  function initialize() {
+  var locations = [
+      ['DESCRIPTION', 41.926979, 12.517385, 3],
+      ['DESCRIPTION', 41.914873, 12.506486, 2],
+      ['DESCRIPTION', 61.918574, 12.507201, 1]
+  ];
+
+  window.map = new google.maps.Map(document.getElementById('map'), {
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+
+  var infowindow = new google.maps.InfoWindow();
+
+  var bounds = new google.maps.LatLngBounds();
+
+  for (i = 0; i < locations.length; i++) {
+      marker = new google.maps.Marker({
+          position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+          map: map
+      });
+
+      bounds.extend(marker.position);
+
+      google.maps.event.addListener(marker, 'click', (function (marker, i) {
+          return function () {
+              infowindow.setContent(locations[i][0]);
+              infowindow.open(map, marker);
+          }
+      })(marker, i));
+  }
+
+  map.fitBounds(bounds);
+
+  var listener = google.maps.event.addListener(map, "idle", function () {
+      map.setZoom(3);
+      google.maps.event.removeListener(listener);
+  });
+}
+
+function loadScript() {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&' + 'callback=initialize';
+  document.body.appendChild(script);
+}
+
+window.onload = loadScript;
+</script>
+</body>
+
+</html>
+
